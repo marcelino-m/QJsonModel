@@ -115,7 +115,6 @@ QJsonTreeItem* QJsonTreeItem::load(const QJsonValue& value, QJsonTreeItem* paren
         }
 
     }
-
     else if ( value.isArray())
     {
         //Get all QJsonValue childs
@@ -209,9 +208,14 @@ QVariant QJsonModel::data(const QModelIndex &index, int role) const
 
 
     if (role == Qt::DisplayRole) {
-
-        if (index.column() == 0)
-            return QString("%1").arg(item->key());
+        if (index.column() == 0) {
+            // Si key tiene prefijo "order:", se ignora
+            // "order:". String "order" se puede usar para forzar
+            // orden debido al orden alfabetico que fuerza
+            // QJsonDocument
+            QStringList keyList = item->key().split(":");
+            return (keyList.size() == 1)? item->key() : QString("%1").arg(item->key().split(":")[1]);
+        }
 
         if (index.column() == 1)
             return QString("%1").arg(item->value());
