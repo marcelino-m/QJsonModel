@@ -30,3 +30,8 @@
 # Qt 
 *.pro.user 
 
+/.ycm_extra_conf.py
+/compile_commands.json
+/GPATH
+/GRTAGS
+/GTAGS
